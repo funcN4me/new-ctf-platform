@@ -13,29 +13,27 @@
                             <div class="row mb-3 justify-content-center">
                                 <div class="form-group col-9">
                                     <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="example@mail.com">
+                                    <input name="email" type="email" class="form-control" id="email" placeholder="example@mail.com">
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-center">
                                 <div class="form-group col-9">
                                     <label for="password">Пароль</label>
-                                    <input type="password" class="form-control" id="password" placeholder="*******">
+                                    <input name="password" type="password" class="form-control" id="password" placeholder="*******">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6 offset-md-4">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
                                         <label class="form-check-label" for="remember">
                                             Запомнить меня
                                         </label>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row justify-content-center">
-                                <div class="col-6 text-center">
+                                <div class="col-9 text-center">
                                     <button type="submit" class="btn btn-primary col-12">
                                         Войти
                                     </button>
