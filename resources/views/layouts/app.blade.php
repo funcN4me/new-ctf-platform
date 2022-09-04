@@ -27,7 +27,8 @@
     <link rel="stylesheet" href="/theme/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="/theme/plugins/summernote/summernote-bs4.min.css">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    @yield('custom-styles')
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -51,7 +52,11 @@
                 </div>
             </div>
         </div>
-        @yield('content')
+        <section class="content">
+            <div class="container-fluid">
+                @yield('content')
+            </div>
+        </section>
     </div>
 
     <footer class="main-footer">
@@ -83,7 +88,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="/js/custom-scripts/my-script.js"></script>
 
-<script src="{{ asset('js/layout.js') }}"></script>
-@yield('scripts')
+<script src="/js/custom-scripts/layout.js"></script>
+@yield('custom-scripts')
 </body>
 </html>

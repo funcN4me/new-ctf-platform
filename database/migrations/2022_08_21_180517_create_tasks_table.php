@@ -18,9 +18,10 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('flag')->unique();
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->integer('price');
-            $table->integer('category_id')->unsigned();
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->string('subcategory');
             $table->timestamps();
         });
     }

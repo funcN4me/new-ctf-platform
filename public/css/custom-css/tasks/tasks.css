@@ -1,0 +1,11 @@
+.task-card {
+    min-height: 27vh;
+    max-height: 27vh;
+    overflow: hidden;
+}
+
+.task-price {
+    font-size: 1.5rem;
+    bottom: 5%;
+    left: 50%;
+}
