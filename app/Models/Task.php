@@ -16,9 +16,8 @@ class Task extends Model
         'description',
         'flag',
         'url',
-        'price',
         'category_id',
-        'subcategory',
+        'subcategory_id',
     ];
 
     public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -34,5 +33,10 @@ class Task extends Model
     public function files(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(File::class);
+    }
+
+    public function subcategory(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Subcategory::class);
     }
 }

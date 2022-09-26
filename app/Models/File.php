@@ -12,5 +12,6 @@ class File extends Model
     protected $fillable = [
         'name',
         'path',
+        'task_id',
     ];
 }

@@ -39,13 +39,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('tasks.show') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Список задач</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/layout/top-nav.html" class="nav-link">
+                            <a href="{{ route('tasks.create') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Создать задачу</p>
                             </a>
@@ -74,7 +74,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Список ресурсов</p>
                             </a>
@@ -100,7 +100,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Пользователи

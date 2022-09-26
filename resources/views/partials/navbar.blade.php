@@ -8,10 +8,10 @@
             <a href="{{ route('home') }}" class="nav-link">Главная</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="" class="nav-link">Задачи</a>
+            <a href="{{ route('tasks.show') }}" class="nav-link">Задачи</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="" class="nav-link">Обучение</a>
+            <a href="#" class="nav-link">Обучение</a>
         </li>
     </ul>
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFileTaskTable extends Migration
+class CreateSubcategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateFileTaskTable extends Migration
      */
     public function up()
     {
-        Schema::create('file_task', function (Blueprint $table) {
+        Schema::create('subcategories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('file_id')->constrained('files')->onDelete('cascade');
-            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateFileTaskTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_task');
+        Schema::dropIfExists('subcategories');
     }
 }

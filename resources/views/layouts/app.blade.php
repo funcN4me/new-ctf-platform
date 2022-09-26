@@ -27,11 +27,13 @@
     <link rel="stylesheet" href="/theme/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="/theme/plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="/theme/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     @yield('custom-styles')
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/theme/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="/theme/plugins/sweetalerts/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/plugins/sweetalerts/sweetalert.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -85,10 +87,80 @@
 <script src="/theme/plugins/summernote/summernote-bs4.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/theme/dist/js/adminlte.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="/theme/plugins/select2/js/select2.full.min.js"></script>
+<script src="/theme/plugins/sweetalerts/sweetalert2.min.js"></script>
 <script src="/js/custom-scripts/my-script.js"></script>
 
 <script src="/js/custom-scripts/layout.js"></script>
+@if (Session::has('message-success'))
+    <script type="text/javascript">
+        const swAlertError = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+        });
+        swAlertError({
+            type: 'success',
+            title: '{{Session::get("message-success")}}',
+            padding: '2em',
+        })
+    </script>
+@endif
+
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <script type="text/javascript">
+            const swAlertError = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                padding: '2em'
+            });
+            swAlertError({
+                title: '{{$error}}',
+                padding: '2em',
+            })
+        </script>
+    @endforeach
+@endif
+
+@if (Session::has('message-danger') )
+    <script type="text/javascript">
+        const swAlertError = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 4000,
+            padding: '2em'
+        });
+        swAlertError({
+            type: 'error',
+            title: '{{Session::get("message-danger")}}',
+            padding: '2em',
+        })
+    </script>
+@endif
+@if (Session::has('message-warning'))
+    <script type="text/javascript">
+        const swAlertError = swal.mixin({
+            toast: true,
+            position: 'top-end',
+
+            showConfirmButton: false,
+            timer: 4000,
+            padding: '2em'
+        });
+        swAlertError({
+            type: 'warning',
+            title: '{{Session::get("message-warning")}}',
+            padding: '2em'
+
+        })
+    </script>
+@endif
 @yield('custom-scripts')
 </body>
 </html>

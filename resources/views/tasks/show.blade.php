@@ -17,13 +17,10 @@
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="card task-card">
                                     <div class="card-header">
-                                        <h3 class="card-title">{{ $task->subcategory }}</h3>
+                                        <h3 class="card-title">{{ $task->subcategory->name }}</h3>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">{{ $task->name }}</p>
-                                        <div class="task-price-container">
-                                            <span class="task-price position-absolute">{{ $task->price }}</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

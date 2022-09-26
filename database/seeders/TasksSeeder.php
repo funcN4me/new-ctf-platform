@@ -20,9 +20,8 @@ class TasksSeeder extends Seeder
                 'description' => 'Описание задания ' . $i,
                 'flag' => 'GUMRF{flag' . $i . '}',
                 'url' => 'https://google.com',
-                'price' => $i * 100,
                 'category_id' => rand(1, 5),
-                'subcategory' => 'Подкатегория ' . $i,
+                'subcategory_id' => rand(1,8),
             ]);
         }
 
@@ -30,9 +29,8 @@ class TasksSeeder extends Seeder
             'name' => 'Задание 6',
             'description' => 'Описание задания 6',
             'flag' => 'GUMRF{flag6}',
-            'price' => 1000,
             'category_id' => 1,
-            'subcategory' => 'Подкатегория 6',
+            'subcategory_id' => 1,
         ]);
     }
 }
