@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -50,7 +51,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255', 'regex:/^[А-ЯЁ][а-яё]+$/u'],
+            'patronymic' => ['nullable', 'string', 'max:255', 'regex:/^[А-ЯЁ][а-яё]+$/u'],
+            'group' => ['nullable', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'regex:/^[А-ЯЁ][а-яё]+$/u'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -64,10 +68,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
+            'surname' => $data['surname'],
             'name' => $data['name'],
+            'patronymic' => $data['patronymic'] ?? null,
             'email' => $data['email'],
+            'group' => $data['group'] ?? null,
             'password' => Hash::make($data['password']),
         ]);
+
+        $user->roles()->attach(Role::where('name', 'user')->first());
+
+        return $user;
     }
 }

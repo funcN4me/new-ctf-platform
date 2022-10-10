@@ -31,15 +31,5 @@ class UsersSeeder extends Seeder
             'email' => 'user@mail.com',
             'password' => bcrypt('secret'),
         ]);
-
-        Role::create([
-            'name' => 'Админ',
-            'slug' => 'admin',
-        ]);
-
-        Role::create([
-            'name' => 'Пользователь',
-            'slug' => 'user',
-        ]);
     }
 }

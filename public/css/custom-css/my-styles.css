@@ -20,3 +20,8 @@
 .custom-multiselect ~ .select2-container.select2-container--default.select2-container--open .select2-selection__rendered {
     border: 0px solid #1b55e2 !important;
 }
+
+.required-input {
+    color: red;
+    font-weight: bolder;
+}

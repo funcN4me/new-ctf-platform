@@ -39,6 +39,11 @@
                                     </button>
                                 </div>
                             </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6 offset-md-4">
+                                    <a href="{{ route('register') }}">Зарегистрироваться</a>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -26,14 +26,13 @@
                 <!-- User image -->
                 <li class="user-header bg-primary">
                     <img src="/theme/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-
                     <p>
                         {{ auth()->user()->fioShort . ' ' . '-' . ' ' . auth()->user()->group}}
                     </p>
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                    <a href="#" class="btn btn-default btn-flat">Профиль</a>
+                    <a href="{{ route('users.profile', auth()->user()->id) }}" class="btn btn-default btn-flat">Профиль</a>
                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-right">Выйти</a>
                 </li>
             </ul>

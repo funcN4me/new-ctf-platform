@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -18,8 +20,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'surname',
+        'name',
         'patronymic',
         'group',
         'email',
@@ -36,6 +38,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $dates = [
+        'deleted_at',
+    ];
+
     /**
      * The attributes that should be cast.
      *
@@ -45,14 +51,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getFioShortAttribute()
+    public function getFioShortAttribute(): string
     {
         return $this->surname. ' ' . $this->name;
     }
 
-    public function tasks()
+    public function isAdmin(): bool
+    {
+        return $this->roles()->where('slug', 'admin')->exists();
+    }
+
+    public function tasks(): BelongsToMany
     {
         return $this->belongsToMany(Task::class);
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
     }
 
 }
