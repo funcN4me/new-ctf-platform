@@ -32,6 +32,7 @@
 
     <link rel="stylesheet" href="/theme/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="/theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="/css/custom-css/my-styles.css">
     <link href="/theme/plugins/sweetalerts/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <link href="/theme/plugins/sweetalerts/sweetalert.css" rel="stylesheet" type="text/css" />
 </head>
@@ -120,6 +121,7 @@
                 padding: '2em'
             });
             swAlertError({
+                type: 'error',
                 title: '{{$error}}',
                 padding: '2em',
             })

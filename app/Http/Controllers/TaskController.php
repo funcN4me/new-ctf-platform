@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\Tasks\StoreTaskRequest;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Subcategory;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TaskController extends Controller

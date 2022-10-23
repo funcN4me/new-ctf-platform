@@ -19,13 +19,21 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <img src="/theme/dist/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">
+                @if(auth()->user()->avatar_path)
+                    <img src="{{ auth()->user()->avatar }}" class="user-image img-circle elevation-2" alt="User Image">
+                @else
+                    <img src="/img/person.png" class="user-image img-circle elevation-2" alt="User Image">
+                @endif
                 <span class="d-none d-md-inline">{{ auth()->user()->fioShort }} </span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0;">
                 <!-- User image -->
                 <li class="user-header bg-primary">
-                    <img src="/theme/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    @if(auth()->user()->avatar_path)
+                        <img src="{{ auth()->user()->avatar }}" class="img-circle elevation-2" alt="User Image">
+                    @else
+                        <img src="/img/person.png" class="img-circle elevation-2" alt="User Image">
+                    @endif
                     <p>
                         {{ auth()->user()->fioShort . ' ' . '-' . ' ' . auth()->user()->group}}
                     </p>

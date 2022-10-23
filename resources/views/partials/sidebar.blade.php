@@ -10,10 +10,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="/theme/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ auth()->user()->avatar }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ auth()->user()->fioShort }}</a>
+                <a href="#" class="d-block" id="userSidebar">{{ auth()->user()->fioShort }}</a>
             </div>
         </div>
         <!-- Sidebar Menu -->
@@ -100,12 +100,14 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('users.list') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Пользователи
-                        </p>
-                    </a>
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('users.list') }}" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Пользователи
+                            </p>
+                        </a>
+                    @endif
                 </li>
             </ul>
         </nav>

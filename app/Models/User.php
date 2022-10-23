@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -26,6 +27,8 @@ class User extends Authenticatable
         'group',
         'email',
         'password',
+        'avatar_path',
+        'is_active'
     ];
 
     /**
@@ -54,6 +57,16 @@ class User extends Authenticatable
     public function getFioShortAttribute(): string
     {
         return $this->surname. ' ' . $this->name;
+    }
+
+    public function getInitialsAttribute(): string
+    {
+        return mb_substr($this->surname, 0, 1) . mb_substr($this->name, 0, 1);
+    }
+
+    public function getAvatarAttribute(): string
+    {
+        return $this->avatar_path ? Storage::url($this->avatar_path) : '';
     }
 
     public function isAdmin(): bool

@@ -22,13 +22,17 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::match(['POST', 'GET'],'/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'show'])->name('tasks.show');
     Route::get('/tasks/create', [App\Http\Controllers\TaskController::class, 'create'])->name('tasks.create');
     Route::post('/tasks/create', [App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store');
 
-    Route::get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users.list');
+    Route::get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users.list')->middleware('is_admin');
     Route::get('/users/{user}', [App\Http\Controllers\UsersController::class, 'profile'])->name('users.profile');
-    Route::delete('/users/{user}/delete', [App\Http\Controllers\UsersController::class, 'delete'])->name('users.delete');
+    Route::put('/users/{user}', [App\Http\Controllers\UsersController::class, 'update'])->name('users.update');
+    Route::get('/users/{user}/change-status', [App\Http\Controllers\UsersController::class, 'changeUserStatus'])->name('users.status.change')->middleware('is_admin');
+    Route::post('/users/{user}/change-avatar', [App\Http\Controllers\UsersController::class, 'changeAvatar'])->name('users.avatar.change');
+    Route::get('/users/{user}/avatar/delete', [App\Http\Controllers\UsersController::class, 'deleteAvatar'])->name('users.avatar.delete');
 });

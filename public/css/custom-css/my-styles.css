@@ -25,3 +25,7 @@
     color: red;
     font-weight: bolder;
 }
+
+#userSidebar {
+    white-space: normal;
+}

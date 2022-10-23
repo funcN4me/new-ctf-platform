@@ -21,8 +21,14 @@
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
-                            <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" src="/theme/dist/img/user4-128x128.jpg" alt="User profile picture">
+                            <div class="text-center image-upload" data-toggle="modal" data-target="#uploadAvatar">
+                                @if($user->avatar_path)
+                                    <img class="profile-user-img img-fluid img-circle" src="{{ $user->avatar }}" alt="User profile picture">
+                                @else
+                                    <div class="profile-user-img img-fluid img-circle bg-cyan">
+                                        <p style="font-weight: bold; font-size: 45px;">{{ $user->initials }}</p>
+                                    </div>
+                                @endif
                             </div>
                             <h3 class="profile-username text-center">{{ $user->fioShort }}</h3>
                             <p class="text-muted text-center">{{ $user->group }}</p>
@@ -36,7 +42,7 @@
                                 </li>
                             </ul>
                             @if(auth()->user()->isAdmin() && $user->id !== auth()->user()->id)
-                                <button data-toggle="modal" data-target="#deleteUser" class="btn btn-danger btn-block"><b>Заблокировать</b></button>
+                                <button id="changeUserStatus" data-id="{{ $user->id }}" data-is-active="{{ $user->is_active }}" class="btn btn-danger btn-block"><b>Заблокировать</b></button>
                             @endif
                         </div>
                         <!-- /.card-body -->
@@ -47,17 +53,17 @@
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a>
+                                <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Информация</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Activity</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a>
-                                </li>
-                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a>
                                 </li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
-                                <div class="active tab-pane" id="activity">
+                                <div class="tab-pane" id="activity">
                                     <!-- Post -->
                                     <div class="post">
                                         <div class="user-block">
@@ -284,57 +290,43 @@
                                 </div>
                                 <!-- /.tab-pane -->
 
-                                <div class="tab-pane" id="settings">
-                                    <form class="form-horizontal">
+                                <div class="active tab-pane" id="settings">
+                                    <form class="form-horizontal" action="{{ route('users.update', $user->id) }}" method="POST">
+                                        @csrf
+                                        @method('put')
                                         <div class="form-group row">
-                                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                            <label for="surname" class="col-sm-2 col-form-label">Фамилия</label>
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="inputName"
-                                                       placeholder="Name">
+                                                <input required name="surname" type="text" class="form-control" id="surname" value="{{ $user->surname }}" placeholder="Фамилия">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                            <label for="name" class="col-sm-2 col-form-label">Имя</label>
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="inputEmail"
-                                                       placeholder="Email">
+                                                <input required name="name" type="text" class="form-control" id="name" value="{{ $user->name }}" placeholder="Имя">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                                            <label for="patronymic" class="col-sm-2 col-form-label">Отчество</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputName2"
-                                                       placeholder="Name">
+                                                <input name="patronymic" type="text" class="form-control" id="patronymic" value="{{ $user->patronymic }}" placeholder="Отчество">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputExperience"
-                                                   class="col-sm-2 col-form-label">Experience</label>
+                                            <label for="email" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" id="inputExperience"
-                                                          placeholder="Experience"></textarea>
+                                                <input required name="email" type="email" class="form-control" id="email" value="{{ $user->email }}" placeholder="Email">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                            <label for="group" class="col-sm-2 col-form-label">Группа</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSkills"
-                                                       placeholder="Skills">
+                                                <input type="text" name="group" class="form-control" id="group" value="{{ $user->group }}" placeholder="Группа">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="offset-sm-2 col-sm-10">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> I agree to the <a href="#">terms and
-                                                            conditions</a>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="offset-sm-2 col-sm-10">
-                                                <button type="submit" class="btn btn-danger">Submit</button>
+                                                <button type="submit" class="btn btn-primary">Сохранить</button>
                                             </div>
                                         </div>
                                     </form>
@@ -355,7 +347,7 @@
     <div class="modal fade" id="deleteUser" style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="{{ route('users.delete', $user->id) }}">
+                <form method="POST" action="{{ route('users.status.change', $user->id) }}">
                     @csrf
                     @method('delete')
                     <div class="modal-header">
@@ -376,4 +368,9 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+    @include('users.modals.image_upload')
+@endsection
+
+@section('custom-scripts')
+    <script src="/js/custom-scripts/users/profile.js"></script>
 @endsection
