@@ -42,7 +42,11 @@
                                 </li>
                             </ul>
                             @if(auth()->user()->isAdmin() && $user->id !== auth()->user()->id)
-                                <button id="changeUserStatus" data-id="{{ $user->id }}" data-is-active="{{ $user->is_active }}" class="btn btn-danger btn-block"><b>Заблокировать</b></button>
+                                @if($user->is_active)
+                                    <button id="changeUserStatus" data-id="{{ $user->id }}" data-is-active="{{ $user->is_active }}" class="btn btn-danger btn-block">Заблокировать</button>
+                                @else
+                                    <button id="changeUserStatus" data-id="{{ $user->id }}" data-is-active="{{ $user->is_active }}" class="btn btn-success btn-block">Разблокировать</button>
+                                @endif
                             @endif
                         </div>
                         <!-- /.card-body -->

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Users\StoreUserAvatarRequest;
+use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -27,6 +28,16 @@ class UsersController extends Controller
         }
 
         return back()->with('message-danger', 'У вас нет прав для просмотра этой страницы');
+    }
+
+    public function store(StoreUserRequest $request): RedirectResponse
+    {
+        $input = $request->input();
+        $input['password'] = bcrypt($input['password']);
+
+        User::create($input);
+
+        return back()->with('message-success', 'Пользователь успешно создан');
     }
 
     public function update(UpdateUserRequest $request, User $user): RedirectResponse

@@ -29,3 +29,8 @@
 #userSidebar {
     white-space: normal;
 }
+
+.my-icon-hover:hover {
+    cursor: pointer;
+    color: #4d4d4d;
+}

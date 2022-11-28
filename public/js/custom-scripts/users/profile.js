@@ -23,11 +23,16 @@ $(document).ready(function() {
                 padding: '2em',
             });
             if (isActive == 1) {
-                alert(123);
+                $('#changeUserStatus').data('is-active', 0);
+                $('#changeUserStatus').removeClass('btn-danger');
+                $('#changeUserStatus').addClass('btn-success');
+                $('#changeUserStatus').text("Разблокировать");
             }
             else {
-                $(this).removeClass('btn-success');
-                $(this).addClass('btn-danger');
+                $('#changeUserStatus').removeClass('btn-success');
+                $('#changeUserStatus').data('is-active', 1);
+                $('#changeUserStatus').addClass('btn-danger');
+                $('#changeUserStatus').text("Заблокировать");
             }
         })
     });
