@@ -9,3 +9,23 @@
     bottom: 5%;
     left: 50%;
 }
+
+.change-card {
+    border-radius: 70%;
+    background-color: #0a58ca;
+    padding: 1.5rem;
+    width: 1.5rem;
+    position: absolute;
+    right: 3%;
+}
+
+.resource-card {
+    min-height: 27vh;
+    max-height: 27vh;
+    overflow: hidden;
+}
+
+.resource-card:hover {
+    cursor: pointer;
+    background-color: #f3f3f3;
+}

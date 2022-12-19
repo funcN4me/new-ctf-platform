@@ -36,4 +36,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/users/{user}/change-status', [App\Http\Controllers\UsersController::class, 'changeUserStatus'])->name('users.status.change')->middleware('is_admin');
     Route::post('/users/{user}/change-avatar', [App\Http\Controllers\UsersController::class, 'changeAvatar'])->name('users.avatar.change');
     Route::get('/users/{user}/avatar/delete', [App\Http\Controllers\UsersController::class, 'deleteAvatar'])->name('users.avatar.delete');
+
+    Route::get('/resources', [App\Http\Controllers\ResourcesController::class, 'list'])->name('resources.show');
+    Route::get('/resources/resource/{resource}', [App\Http\Controllers\ResourcesController::class, 'show'])->name('resources.resource.show');
+    Route::get('/resources/resource/edit/{resource}', [App\Http\Controllers\ResourcesController::class, 'showEdit'])->name('resources.resource.edit');
+    Route::post('/resources/resource/edit/{resource}', [App\Http\Controllers\ResourcesController::class, 'edit'])->name('resources.resource.edit.submit');
+    Route::get('/resources/resource/mark-as-read/{resource}', [App\Http\Controllers\ResourcesController::class, 'markAsRead'])->name('resources.resource.mark_as_read');
 });

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SubcategoriesSeeder::class);
         $this->call(TasksSeeder::class);
         $this->call(RolesSeeder::class);
+        $this->call(ResourcesSeeder::class);
         // \App\Models\User::factory(10)->create();
     }
 }

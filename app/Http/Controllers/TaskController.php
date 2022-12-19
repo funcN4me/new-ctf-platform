@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\File;
 use App\Models\Subcategory;
 use App\Models\Task;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class TaskController extends Controller
@@ -28,7 +29,7 @@ class TaskController extends Controller
         return view('tasks.create', compact('categories', 'subcategories'));
     }
 
-    public function store(StoreTaskRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreTaskRequest $request): RedirectResponse
     {
         $input = $request->input();
         $files = $request->file('files');

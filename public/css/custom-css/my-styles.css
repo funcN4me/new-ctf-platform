@@ -30,7 +30,25 @@
     white-space: normal;
 }
 
+.my-icon-hover {
+    color: #4f5962
+}
+
 .my-icon-hover:hover {
     cursor: pointer;
     color: #4d4d4d;
+}
+
+.no-styles-href {
+    text-decoration: none;
+    color: black;
+}
+
+.no-styles-href:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.resource-card > .card:hover {
+    background-color: #efefef !important;
 }
