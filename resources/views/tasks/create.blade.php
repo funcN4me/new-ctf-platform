@@ -31,7 +31,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="category_id">Подкатегория</label>
+                            <label for="subcategory_id">Подкатегория</label>
                             <select class="form-control select2" name="subcategory_id" id="subcategory_id">
                                 @forelse($subcategories as $subcategory)
                                     <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>

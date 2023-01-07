@@ -26,8 +26,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'show'])->name('tasks.show');
+    Route::get('/task/show/{task}', [App\Http\Controllers\TaskController::class, 'get'])->name('tasks.modal.show');
+    Route::post('/task/submit/{task}', [App\Http\Controllers\TaskController::class, 'checkFlag'])->name('tasks.submit');
     Route::get('/tasks/create', [App\Http\Controllers\TaskController::class, 'create'])->name('tasks.create');
     Route::post('/tasks/create', [App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store');
+    Route::post('/task/edit/{task}', [App\Http\Controllers\TaskController::class, 'edit'])->name('tasks.edit');
+    Route::get('/task/edit/{task}', [App\Http\Controllers\TaskController::class, 'editShow'])->name('tasks.edit.show');
+    Route::get('/task/file/delete/{file}', [App\Http\Controllers\TaskController::class, 'deleteFile'])->name('tasks.file.delete');
+    Route::get('/task/delete/{task}', [App\Http\Controllers\TaskController::class, 'deleteShow'])->name('tasks.delete.show');
+    Route::post('/task/delete/{task}', [App\Http\Controllers\TaskController::class, 'delete'])->name('tasks.delete');
 
     Route::get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users.list')->middleware('is_admin');
     Route::post('/users/store', [App\Http\Controllers\UsersController::class, 'store'])->name('users.store')->middleware('is_admin');

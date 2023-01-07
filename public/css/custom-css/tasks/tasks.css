@@ -1,3 +1,12 @@
+.task-card:hover {
+    cursor: pointer;
+    background-color: #f3f3f3;
+}
+
+.modal-default {
+    max-width: 560px !important;
+}
+
 .task-card {
     min-height: 27vh;
     max-height: 27vh;
@@ -28,4 +37,8 @@
 .resource-card:hover {
     cursor: pointer;
     background-color: #f3f3f3;
+}
+
+.task-attachments {
+    gap: 1rem;
 }

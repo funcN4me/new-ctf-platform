@@ -19,6 +19,15 @@
             <div class="card">
                 <div class="card-body">
                     <form action="{{ route('resources.resource.edit.submit', ['resource' => $resource->id]) }}" method="post">
+                        <div class="form-group">
+                            <label for="name">Название ресурса</label>
+                            <input id="name" type="text" name="name" class="form-control" value="{{ $resource->name }}">
+                        </div>
+                        <div class="form-group">
+                            <select name="resource_parts[]" multiple id="resource_parts" class="form-control select2">
+                                <option disabled>Основные части ресурса</option>
+                            </select>
+                        </div>
                         @csrf
                         <textarea id="summernote" name="description">{!! $resource->description !!}</textarea>
                         <div class="d-flex justify-content-end">
@@ -40,6 +49,9 @@
     <script>
         $(document).ready(function () {
             $('#summernote').summernote();
+            $('#resource_parts').select2({
+                tags: true
+            });
         });
     </script>
 @endsection

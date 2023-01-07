@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="/css/custom-css/my-styles.css">
     <link href="/theme/plugins/sweetalerts/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <link href="/theme/plugins/sweetalerts/sweetalert.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/theme/plugins/dropzone/min/dropzone.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -90,7 +91,7 @@
 <script src="/theme/dist/js/adminlte.js"></script>
 <script src="/theme/plugins/select2/js/select2.full.min.js"></script>
 <script src="/theme/plugins/sweetalerts/sweetalert2.min.js"></script>
-<script src="/js/custom-scripts/my-script.js"></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
 <script src="/js/custom-scripts/layout.js"></script>
 @if (Session::has('message-success'))

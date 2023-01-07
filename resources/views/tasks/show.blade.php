@@ -15,9 +15,19 @@
                     <div class="row">
                         @forelse($category->tasks as $task)
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="card task-card">
+                                <div class="card task task-card @if(auth()->user()->tasks->contains($task)) card-success @endif" data-task-id="{{ $task->id }}">
                                     <div class="card-header">
-                                        <h3 class="card-title">{{ $task->subcategory->name }}</h3>
+                                        <h3 class="card-title w-100 d-flex justify-content-between">
+                                            {{ $task->subcategory->name }}
+                                            @if(auth()->user()->isAdmin())
+                                                <div class="flex-btns">
+                                                    <a class="changeTask" href="{{ route('tasks.edit.show', ['task' => $task]) }}">
+                                                        <i class="changeTask my-icon-hover nav-icon fas fa-pen"></i>
+                                                    </a>
+                                                    <i class="ml-2 deleteTask my-icon-hover nav-icon fas fa-trash" data-task-id="{{ $task->id }}"></i>
+                                                </div>
+                                            @endif
+                                        </h3>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">{{ $task->name }}</p>
@@ -38,9 +48,15 @@
             </div>
         @endforelse
     </div>
+    <div id="taskModal"></div>
+    <div id="deleteModal"></div>
 @endsection
 
 
 @section('custom-styles')
     <link rel="stylesheet" href="/css/custom-css/tasks/tasks.css">
+@endsection
+
+@section('custom-scripts')
+    <script src="/js/custom-scripts/tasks/tasks.js"></script>
 @endsection

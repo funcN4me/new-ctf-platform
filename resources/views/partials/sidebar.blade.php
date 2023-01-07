@@ -10,7 +10,11 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ auth()->user()->avatar }}" class="img-circle elevation-2" alt="User Image">
+                @if(auth()->user()->avatar_path)
+                    <img src="{{ auth()->user()->avatar }}" class="user-image img-circle elevation-2" alt="User Image">
+                @else
+                    <img src="/img/person.png" class="user-image img-circle elevation-2" alt="User Image">
+                @endif
             </div>
             <div class="info">
                 <a href="#" class="d-block" id="userSidebar">{{ auth()->user()->fioShort }}</a>
@@ -50,18 +54,6 @@
                                 <p>Создать задачу</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Изменить задачу</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/boxed.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Удалить задачу</p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -83,18 +75,6 @@
                             <a href="pages/charts/flot.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Создать ресурс</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/charts/inline.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Изменить ресурс</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/charts/uplot.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Удалить ресурс</p>
                             </a>
                         </li>
                     </ul>

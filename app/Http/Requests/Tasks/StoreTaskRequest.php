@@ -23,8 +23,9 @@ class StoreTaskRequest extends FormRequest
      */
     public function rules()
     {
+        $taskId = isset($this->task) ? $this->task->id : null;
         return [
-            'name' => 'required|string|max:255|unique:tasks',
+            'name' => 'required|string|max:255|unique:tasks,name,' . $taskId,
             'description' => 'required|string|max:255',
             'category_id' => 'required|integer|exists:categories,id',
             'subcategory_id' => 'required|integer|exists:subcategories,id',
