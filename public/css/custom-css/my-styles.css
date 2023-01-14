@@ -52,3 +52,8 @@
 .resource-card > .card:hover {
     background-color: #efefef !important;
 }
+
+.flex-btns {
+    gap: 1rem;
+    display: flex;
+}

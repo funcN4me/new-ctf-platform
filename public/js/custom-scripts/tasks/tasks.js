@@ -26,6 +26,27 @@ $(document).on('click', '.task', function (event) {
     }
 });
 
+$('.taskCategories').on('change', function () {
+    $('.noneTasks').remove();
+    $(`.categoryContainer`).each(function () {
+        $(this).addClass('d-none');
+    });
+
+    let chosenCategory = $('.categoryContainer[data-category-id=' + $(this).val() + ']');
+
+    chosenCategory.removeClass('d-none');
+
+    if ($(this).val() === 'all') {
+        $(`.categoryContainer`).each(function () {
+            $(this).removeClass('d-none');
+        });
+    }
+
+    if (!chosenCategory.length && $(this).val() !== 'all') {
+        $('.categoryContainer').parent().append('<h3 class="col-12 noneTasks">Нет задач в этой категории</h3>');
+    }
+})
+
 $(document).on('click', '.deleteFile', function (event) {
     event.preventDefault();
 

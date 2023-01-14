@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Tasks\StoreTaskRequest;
+use App\Http\Services\TasksService;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Subcategory;
@@ -42,6 +43,8 @@ class TaskController extends Controller
     {
         $input = $request->input();
         $files = $request->file('files');
+
+        $input = TasksService::prepareTaskInput($input);
 
         $task = Task::create($input);
 
@@ -94,6 +97,8 @@ class TaskController extends Controller
     {
         $input = $request->input();
         $files = $request->file('files');
+
+        $input = TasksService::prepareTaskInput($input);
 
         $task->update($input);
 

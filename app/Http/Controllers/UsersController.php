@@ -7,7 +7,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Users\StoreUserAvatarRequest;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
+use App\Models\Category;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -67,5 +69,16 @@ class UsersController extends Controller
         $user->update(['avatar_path' => null]);
 
         return back()->with('message-success', 'Аватар удален');
+    }
+
+    public function getFavouriteCategories(User $user)
+    {
+        $categories = Category::withCount(['tasks' => function (Builder $query) use ($user) {
+            $query->whereIn('id', $user->tasks->pluck('id')->toArray());
+        }])->get();
+
+        return $categories->filter(function ($category) {
+            return $category->tasks_count > 0;
+        })->toArray();
     }
 }

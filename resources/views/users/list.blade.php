@@ -3,9 +3,11 @@
 @section('title', 'Пользователи')
 
 @section('header')
-    <h1 class="m-0 text-dark">Список пользователей
-        <i class="my-icon-hover nav-icon fas fa-plus-circle" data-toggle="modal" data-target="#createUserModal"></i>
-    </h1>
+    <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Список пользователей
+            <i class="my-icon-hover nav-icon fas fa-plus-circle" data-toggle="modal" data-target="#createUserModal"></i>
+        </h1>
+    </div>
 @endsection
 
 @section('content')

@@ -24,31 +24,49 @@ class StoreTaskRequest extends FormRequest
     public function rules()
     {
         $taskId = isset($this->task) ? $this->task->id : null;
+
+        $categoryRule = 'required|integer|exists:categories,id';
+        $subcategoryRule = 'required|integer|exists:subcategories,id';
+
+        if (!is_numeric($this->category_id)) {
+            $categoryRule = 'required|string|unique:categories,name';
+        }
+
+        if (!is_numeric($this->subcategory_id)) {
+            $subcategoryRule = 'required|string|unique:subcategories,name';
+        }
+
         return [
             'name' => 'required|string|max:255|unique:tasks,name,' . $taskId,
             'description' => 'required|string|max:255',
-            'category_id' => 'required|integer|exists:categories,id',
-            'subcategory_id' => 'required|integer|exists:subcategories,id',
+            'category_id' => $categoryRule,
+            'subcategory_id' => $subcategoryRule,
             'files' => 'nullable|array',
             'files.*' => 'nullable|file|max:10240',
             'url' => 'nullable|url|max:255',
+            'flag' => 'required|string|max:255|unique:tasks,flag,' . $taskId,
         ];
     }
 
-    public $attributes = [
-        'name' => 'Название',
-        'description' => 'Описание',
-        'category_id' => 'Категория',
-        'subcategory_id' => 'Подкатегория',
-        'files' => 'Файлы',
-        'url' => 'Ссылка',
-    ];
+    public function attributes()
+    {
+        return [
+            'name' => 'Название',
+            'description' => 'Описание',
+            'category_id' => 'Категория',
+            'subcategory_id' => 'Подкатегория',
+            'files' => 'Файлы',
+            'url' => 'Ссылка',
+            'flag' => 'Флаг',
+        ];
+    }
 
     public function messages()
     {
         return [
             'required' => 'Поле :attribute обязательно для заполнения',
-            'unique' => 'Задача с таким названием уже существует',
+            'name.unique' => 'Задача с таким названием уже существует',
+            'flag.unique' => 'Задача с таким флагом уже существует',
             'files.*.max' => 'Максимальный размер файла 10 Мб',
             'max' => 'Поле :attribute не должно превышать :max символов',
             'category_id.exists' => 'Выбранная категория не существует',

@@ -29,8 +29,8 @@
 }
 
 .resource-card {
-    min-height: 27vh;
-    max-height: 27vh;
+    min-height: 28vh;
+    max-height: 28vh;
     overflow: hidden;
 }
 
@@ -41,4 +41,16 @@
 
 .task-attachments {
     gap: 1rem;
+}
+
+.select2-container--default .select2-selection--multiple li.select2-selection__choice {
+    color: #0a0e14 !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #80bdff !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #ced4da !important;
 }

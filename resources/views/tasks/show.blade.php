@@ -3,14 +3,26 @@
 @section('title', 'Задачи')
 
 @section('header')
-    <h1 class="m-0 text-dark">Задачи</h1>
+    <div class="col-12">
+        <div class="d-flex justify-content-between">
+            <h1 class="m-0 text-dark">
+                Задачи
+            </h1>
+            <select class="select2 form-control col-3 taskCategories" name="tasksCategories" id="tasksCategories">
+                <option value="all" selected>Все категории</option>
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
 @endsection
 
 @section('content')
     <div class="row">
         @forelse($categories as $category)
             @if(!$category->tasks->isEmpty())
-                <div class="col-12">
+                <div class="col-12 categoryContainer" data-category-id="{{ $category->id }}">
                     <h3>{{ $category->name }}</h3>
                     <div class="row">
                         @forelse($category->tasks as $task)
@@ -24,7 +36,7 @@
                                                     <a class="changeTask" href="{{ route('tasks.edit.show', ['task' => $task]) }}">
                                                         <i class="changeTask my-icon-hover nav-icon fas fa-pen"></i>
                                                     </a>
-                                                    <i class="ml-2 deleteTask my-icon-hover nav-icon fas fa-trash" data-task-id="{{ $task->id }}"></i>
+                                                    <i class="deleteTask my-icon-hover nav-icon fas fa-trash" data-task-id="{{ $task->id }}"></i>
                                                 </div>
                                             @endif
                                         </h3>

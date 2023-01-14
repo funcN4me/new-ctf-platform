@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Resources\StoreResourceRequest;
 use App\Models\Resource;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,13 +25,42 @@ class ResourcesController extends Controller
         return view('resources.resource', compact('resource'));
     }
 
+    public function create(): View
+    {
+        return view('resources.create');
+    }
+
+    public function store(StoreResourceRequest $request): RedirectResponse
+    {
+        $input = $request->input();
+
+        $resource = Resource::create($input);
+
+        foreach ($input['resource_parts'] as $resourcePart) {
+            $resource->parts()->create(['name' => $resourcePart]);
+        }
+
+        return redirect()->route('resources.resource.edit', ['resource' => $resource->id])->with('message-success', 'Ресурс создан');
+    }
+
     public function showEdit(Resource $resource): View
     {
         return view('resources.edit', compact('resource'));
     }
 
-    public function edit(Request $request, Resource $resource): RedirectResponse
+    public function edit(StoreResourceRequest $request, Resource $resource): RedirectResponse
     {
+        $input = $request->input();
+
+        $resource->parts()->delete();
+        if (isset($input['resource_parts'])) {
+            foreach ($input['resource_parts'] as $resourcePart) {
+                $resource->parts()->firstOrCreate([
+                    'name' => $resourcePart
+                ]);
+            }
+        }
+
         $resource->update($request->input());
 
         return back()->with('message-success', 'Ресурс изменён');
@@ -43,5 +73,17 @@ class ResourcesController extends Controller
         $currentUser->resources()->attach($resource->id);
 
         return back()->with('message-success', 'Ресурс отмечен как прочитанный');
+    }
+
+    public function deleteShow(Resource $resource): View
+    {
+        return view('resources.modals.delete_resource', compact('resource'));
+    }
+
+    public function delete(Resource $resource): RedirectResponse
+    {
+        $resource->delete();
+
+        return back()->with('message-success', 'Ресурс удалён');
     }
 }

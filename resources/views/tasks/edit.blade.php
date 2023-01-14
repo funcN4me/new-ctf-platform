@@ -3,14 +3,18 @@
 @section('title', 'Изменить задачу')
 
 @section('header')
-    <h1 class="m-0 text-dark">Изменить задачу</h1>
+    <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Изменить задачу</h1>
+    </div>
 @endsection
 
 @section('breadcrumbs')
-    <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{{ route('tasks.show') }}">Список задач</a></li>
-        <li class="breadcrumb-item active">{{ $task->name }}</li>
-    </ol>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ route('tasks.show') }}">Список задач</a></li>
+            <li class="breadcrumb-item active">{{ $task->name }}</li>
+        </ol>
+    </div>
 @endsection
 
 @section('content')
@@ -29,7 +33,7 @@
                         </div>
                         <div class="form-group">
                             <label for="category_id">Категория</label>
-                            <select class="select2 form-control" name="category_id" id="category_id">
+                            <select class="form-control select2" name="category_id" id="category_id">
                                 @foreach($categories as $category)
                                     <option @if($task->category->id === $category->id) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
@@ -76,7 +80,7 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Создать</button>
+                        <button type="submit" class="btn btn-primary">Обновить</button>
                     </div>
                 </form>
             </div>
@@ -84,6 +88,22 @@
     </div>
 @endsection
 
+@section('custom-styles')
+    <link rel="stylesheet" href="/css/custom-css/tasks/tasks.css">
+@endsection
+
 @section('custom-scripts')
     <script src="/js/custom-scripts/tasks/tasks.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#category_id').select2({
+                theme: 'bootstrap4',
+                tags: true
+            });
+            $('#subcategory_id').select2({
+                theme: 'bootstrap4',
+                tags: true
+            });
+        });
+    </script>
 @endsection

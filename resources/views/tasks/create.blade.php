@@ -3,7 +3,9 @@
 @section('title', 'Создать задачу')
 
 @section('header')
-    <h1 class="m-0 text-dark">Создать задачу</h1>
+    <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Создать задачу</h1>
+    </div>
 @endsection
 
 @section('content')
@@ -18,7 +20,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="name">Название задачи</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Название задачи">
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Название задачи" value="{{ old('name') }}">
                         </div>
                         <div class="form-group">
                             <label for="category_id">Категория</label>
@@ -43,27 +45,21 @@
                         <div class="form-group">
                             <label for="description">Описание задачи</label>
                             <textarea class="form-control" name="description" id="description" rows="3"
-                                      placeholder="Описание задачи"></textarea>
+                                      placeholder="Описание задачи">{{ old('description') }}</textarea>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputFile">Файл для задания</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" multiple name="files[]" class="custom-file-input" id="exampleInputFile">
-                                    <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
-                                </div>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">Загрузить</span>
-                                </div>
+                            <label for="exampleInputFile">Файлы для задания</label>
+                            <div class="col-12">
+                                <input type="file" multiple name="files[]" id="exampleInputFile">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="url">Ссылка на задание</label>
-                            <input type="url" name="url" class="form-control" id="url" placeholder="https://google.com">
+                            <input type="url" name="url" class="form-control" id="url" placeholder="https://google.com" value="{{ old('url') }}">
                         </div>
                         <div class="form-group">
                             <label for="flag">Флаг</label>
-                            <input type="text" name="flag" class="form-control" id="flag" placeholder="GUMRF{FLAG}">
+                            <input type="text" name="flag" class="form-control" id="flag" placeholder="GUMRF{FLAG}" value="{{ old('flag') }}">
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -76,3 +72,24 @@
         </div>
     </div>
 @endsection
+
+@section('custom-styles')
+    <link rel="stylesheet" href="/css/custom-css/tasks/tasks.css">
+@endsection
+
+@section('custom-scripts')
+    <script src="/js/custom-scripts/tasks/tasks.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#category_id').select2({
+                theme: 'bootstrap4',
+                tags: true
+            });
+            $('#subcategory_id').select2({
+                theme: 'bootstrap4',
+                tags: true
+            });
+        });
+    </script>
+@endsection
+
