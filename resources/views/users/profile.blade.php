@@ -44,6 +44,9 @@
                                 <li class="list-group-item">
                                     <b>Решёных задач</b> <a class="float-right">{{ $user->tasks->count() }}</a>
                                 </li>
+                                <li class="list-group-item">
+                                    <b>Прочитано обучающих ресурсов</b> <a class="float-right">{{ $user->resources->count() }}</a>
+                                </li>
                             </ul>
                             @if(auth()->user()->isAdmin() && $user->id !== auth()->user()->id)
                                 @if($user->is_active)
@@ -65,7 +68,7 @@
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Активность</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a>
+                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Таймлайн</a>
                                 </li>
                             </ul>
                         </div><!-- /.card-header -->
@@ -98,101 +101,96 @@
                                         </div>
                                         <!-- /.card-body -->
                                     </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Решенные задачи</h3>
+
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <table id="users" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                                                            <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting sorting_desc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID">П.Н.</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Название</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Категория</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Дата и время</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach($user->tasks as $task)
+                                                                    <tr>
+                                                                        <td>{{ $loop->iteration }}</td>
+                                                                        <td>{{ $task->name }}</td>
+                                                                        <td>{{ $task->category->name }}</td>
+                                                                        <td>
+                                                                            @isset($task->pivot->created_at)
+                                                                                {{ $task->pivot->created_at->format('d.m.Y H:i')  }}
+                                                                            @else
+                                                                                Нет данных
+                                                                            @endisset
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">График решения задач</h3>
+
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="chart">
+                                                <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="timeline">
                                     <!-- The timeline -->
                                     <div class="timeline timeline-inverse">
-                                        <!-- timeline time label -->
-                                        <div class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
-                        </span>
-                                        </div>
-                                        <!-- /.timeline-label -->
-                                        <!-- timeline item -->
-                                        <div>
-                                            <i class="fas fa-envelope bg-primary"></i>
-
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="far fa-clock"></i> 12:05</span>
-
-                                                <h3 class="timeline-header"><a href="#">Support Team</a> sent you an
-                                                    email</h3>
-
-                                                <div class="timeline-body">
-                                                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                                    weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                                    jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                                    quora plaxo ideeli hulu weebly balihoo...
-                                                </div>
-                                                <div class="timeline-footer">
-                                                    <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                                </div>
+                                        @foreach($actions as $date => $dateActions)
+                                            <div class="time-label">
+                                                <span class="bg-success">
+                                                    {{ $date }}
+                                                </span>
                                             </div>
-                                        </div>
-                                        <!-- END timeline item -->
-                                        <!-- timeline item -->
-                                        <div>
-                                            <i class="fas fa-user bg-info"></i>
+                                            @foreach($dateActions as $action)
+                                                <div>
+                                                    <i class="fas {{ $action->actionIcon }} bg-info"></i>
 
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                                                <h3 class="timeline-header border-0"><a href="#">Sarah Young</a>
-                                                    accepted your friend request
-                                                </h3>
-                                            </div>
-                                        </div>
-                                        <!-- END timeline item -->
-                                        <!-- timeline item -->
-                                        <div>
-                                            <i class="fas fa-comments bg-warning"></i>
-
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                                                <h3 class="timeline-header"><a href="#">Jay White</a> commented on your
-                                                    post</h3>
-
-                                                <div class="timeline-body">
-                                                    Take me to your leader!
-                                                    Switzerland is small and neutral!
-                                                    We are more like Germany, ambitious and misunderstood!
+                                                    <div class="timeline-item">
+                                                        <span class="time"><i class="far fa-clock"></i> {{ $action->created_at->format('H:i') }}</span>
+                                                        <h3 class="timeline-header border-0">
+                                                            <a>{{ $action->user->fioShort }}</a>
+                                                            {{ $action->actionType . ' ' . $action->actionTargetName->name }}
+                                                        </h3>
+                                                    </div>
                                                 </div>
-                                                <div class="timeline-footer">
-                                                    <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- END timeline item -->
-                                        <!-- timeline time label -->
-                                        <div class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                                        </div>
-                                        <!-- /.timeline-label -->
-                                        <!-- timeline item -->
-                                        <div>
-                                            <i class="fas fa-camera bg-purple"></i>
-
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                                                <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos
-                                                </h3>
-
-                                                <div class="timeline-body">
-                                                    <img src="https://placehold.it/150x100" alt="...">
-                                                    <img src="https://placehold.it/150x100" alt="...">
-                                                    <img src="https://placehold.it/150x100" alt="...">
-                                                    <img src="https://placehold.it/150x100" alt="...">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- END timeline item -->
+                                            @endforeach
+                                        @endforeach
                                         <div>
                                             <i class="far fa-clock bg-gray"></i>
                                         </div>
@@ -282,7 +280,45 @@
 @endsection
 
 @section('custom-scripts')
-    <script src="/js/custom-scripts/users/profile.js"></script>
+    <script src="/theme/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/theme/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="/theme/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="/theme/plugins/jszip/jszip.min.js"></script>
+    <script src="/theme/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="/theme/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <script src="/theme/plugins/chart.js/Chart.min.js"></script>
     <script src="/theme/plugins/chart.js/Chart.bundle.js"></script>
+    <script src="/js/custom-scripts/users/profile.js"></script>
+
+    <script>
+        $('#users').DataTable({
+            "paging": true,
+            "language": {
+                "lengthMenu": "Показать _MENU_ записей на странице",
+                "zeroRecords": "Ничего не найдено",
+                "info": "Показано _PAGE_ из _PAGES_",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "search": "Поиск:",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "Следующая",
+                    "previous": "Предыдущая"
+                }
+            },
+            "pageLength": 5,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    </script>
 @endsection

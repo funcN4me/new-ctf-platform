@@ -8,10 +8,12 @@ use App\Http\Requests\Users\StoreUserAvatarRequest;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
 use App\Models\Category;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -26,7 +28,16 @@ class UsersController extends Controller
     public function profile(User $user)
     {
         if (Auth::user()->isAdmin() || Auth::user()->id === $user->id) {
-            return view('users.profile', compact('user'));
+            $actions = [];
+
+            $userActionsDates = $user->actions()->orderBy('created_at')->get()->pluck('created_at');
+
+            foreach ($userActionsDates as $userActionsDate) {
+                $actions[$userActionsDate->format('d.m.Y')] = $user->actions()->whereDate('created_at', $userActionsDate)->get();
+            }
+
+
+            return view('users.profile', compact('user', 'actions'));
         }
 
         return back()->with('message-danger', 'У вас нет прав для просмотра этой страницы');
@@ -71,7 +82,7 @@ class UsersController extends Controller
         return back()->with('message-success', 'Аватар удален');
     }
 
-    public function getFavouriteCategories(User $user)
+    public function getFavouriteCategories(User $user): array
     {
         $categories = Category::withCount(['tasks' => function (Builder $query) use ($user) {
             $query->whereIn('id', $user->tasks->pluck('id')->toArray());
@@ -80,5 +91,24 @@ class UsersController extends Controller
         return $categories->filter(function ($category) {
             return $category->tasks_count > 0;
         })->toArray();
+    }
+
+    public function getTasksCountByMonth(User $user): array
+    {
+        $totalTasksByMonths = [];
+        $totalCount = 0;
+        $userCount = 0;
+
+        foreach (range(1, 12) as $monthNumber) {
+            $totalCount += Task::whereYear('created_at', now()->year)->whereMonth('created_at', $monthNumber)->count();
+            $userCount += $user->tasks()->wherePivotBetween(
+                'created_at', [Carbon::create(now()->year, $monthNumber)->startOfMonth(), Carbon::create(now()->year, $monthNumber)->endOfMonth()])
+                ->get()->count();
+
+            $totalTasksByMonths[$monthNumber]['totalTasksCount'] = $totalCount;
+            $totalTasksByMonths[$monthNumber]['userTasksCount'] = $userCount;
+        }
+
+        return $totalTasksByMonths;
     }
 }

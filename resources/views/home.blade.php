@@ -4,6 +4,56 @@
 
 @section('content')
     <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Популярные категории</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="chart-responsive">
+                                <canvas id="pieChart"></canvas>
+                            </div>
+                            <!-- ./chart-responsive -->
+                        </div>
+                        <!-- /.col -->
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">График решения задач</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
         <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
@@ -65,4 +115,10 @@
         </div>
         <!-- ./col -->
     </div>
+@endsection
+
+@section('custom-scripts')
+    <script src="/theme/plugins/chart.js/Chart.min.js"></script>
+    <script src="/theme/plugins/chart.js/Chart.bundle.js"></script>
+    <script src="/js/custom-scripts/dashboards.js"></script>
 @endsection

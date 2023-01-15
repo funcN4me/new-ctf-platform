@@ -1,34 +1,21 @@
+import makePieChart, {makeLineChart} from "../dashboards";
+
 $(document).ready(function() {
     $.ajax({
         url: '/users/1/favourite-categories',
         type: 'GET',
 
         success: function (response) {
-            let categories = Object.values(response);
-            console.log(categories);
-            var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-            var pieData = {
-                labels: categories.map(category => category.name),
-                datasets: [
-                    {
-                        data: categories.map(category => category.tasks_count),
-                        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
-                    }
-                ]
-            }
-            var pieOptions = {
-                legend: {
-                    display: true
-                }
-            }
-            // Create pie or douhnut chart
-            // You can switch between pie and douhnut using the method below.
-            // eslint-disable-next-line no-unused-vars
-            var pieChart = new Chart(pieChartCanvas, {
-                type: 'doughnut',
-                data: pieData,
-                options: pieOptions
-            })
+            makePieChart(response);
+        }
+    });
+
+    $.ajax({
+        url: '/users/1/total-tasks',
+        type: 'GET',
+
+        success: function (response) {
+            makeLineChart(response);
         }
     });
 });
@@ -70,3 +57,4 @@ $('#changeUserStatus').on('click', function() {
         }
     })
 });
+

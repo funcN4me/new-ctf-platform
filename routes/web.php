@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::match(['POST', 'GET'],'/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home/get-favourite-categories', [App\Http\Controllers\HomeController::class, 'getFavouriteCategories']);
+    Route::get('/home/get-tasks-by-months', [App\Http\Controllers\HomeController::class, 'getTasksCountByMonth']);
 
     Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'show'])->name('tasks.show');
     Route::get('/task/show/{task}', [App\Http\Controllers\TaskController::class, 'get'])->name('tasks.modal.show');
@@ -43,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/users/{user}/change-avatar', [App\Http\Controllers\UsersController::class, 'changeAvatar'])->name('users.avatar.change');
     Route::get('/users/{user}/avatar/delete', [App\Http\Controllers\UsersController::class, 'deleteAvatar'])->name('users.avatar.delete');
     Route::get('/users/{user}/favourite-categories', [App\Http\Controllers\UsersController::class, 'getFavouriteCategories']);
+    Route::get('/users/{user}/total-tasks', [App\Http\Controllers\UsersController::class, 'getTasksCountByMonth']);
 
     Route::get('/resources', [App\Http\Controllers\ResourcesController::class, 'list'])->name('resources.show');
     Route::get('/resources/create', [App\Http\Controllers\ResourcesController::class, 'create'])->name('resources.create.show');

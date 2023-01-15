@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Resources\StoreResourceRequest;
+use App\Models\Action;
 use App\Models\Resource;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -71,6 +72,12 @@ class ResourcesController extends Controller
         $currentUser = Auth::user();
 
         $currentUser->resources()->attach($resource->id);
+
+        $currentUser->actions()->create([
+            'type' => Action::ACTION_READ_RESOURCE,
+            'target_id' => $resource->id,
+            'target_name' => $resource->name,
+        ]);
 
         return back()->with('message-success', 'Ресурс отмечен как прочитанный');
     }

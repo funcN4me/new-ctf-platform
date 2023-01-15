@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Tasks\StoreTaskRequest;
 use App\Http\Services\TasksService;
+use App\Models\Action;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Subcategory;
@@ -75,12 +76,19 @@ class TaskController extends Controller
     public function checkFlag(Task $task, Request $request): RedirectResponse
     {
         $input = $request->input();
+        $currentUser = Auth::user();
 
         if ($task->flag !== $input['flag']) {
             return back()->with('message-danger', 'Флаг не подходит');
         }
 
-        Auth::user()->tasks()->attach($task->id);
+        $currentUser->tasks()->attach($task->id);
+
+        $currentUser->actions()->create([
+            'type' => Action::ACTION_SOLVED_TASK,
+            'target_id' => $task->id,
+            'target_name' => $task->name,
+        ]);
 
         return back()->with('message-success', 'Задача решена');
     }
