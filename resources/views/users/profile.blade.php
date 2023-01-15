@@ -295,6 +295,7 @@
     <script src="/theme/plugins/chart.js/Chart.min.js"></script>
     <script src="/theme/plugins/chart.js/Chart.bundle.js"></script>
     <script src="/js/custom-scripts/users/profile.js"></script>
+    <script src="/js/custom-scripts/dashboards.js"></script>
 
     <script>
         $('#users').DataTable({
