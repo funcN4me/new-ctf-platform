@@ -1,23 +1,3 @@
-$(document).ready(function () {
-    $.ajax({
-        url: '/home/get-favourite-categories',
-        type: 'GET',
-
-        success: function (response) {
-            makePieChart(response);
-        }
-    });
-
-    $.ajax({
-        url: '/home/get-tasks-by-months',
-        type: 'GET',
-
-        success: function (response) {
-            makeLineChart(response);
-        }
-    })
-});
-
 function makePieChart(response) {
     let categories = Object.values(response);
 
@@ -52,7 +32,7 @@ function makeLineChart(response) {
         labels  : ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
         datasets: [
             {
-                label               : 'Решено задач',
+                label               : 'Решено уникальных задач',
                 backgroundColor     : 'rgba(60,141,188,0.9)',
                 borderColor         : 'rgba(60,141,188,0.8)',
                 pointRadius          : false,

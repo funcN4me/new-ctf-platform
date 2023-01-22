@@ -32,6 +32,8 @@ class Action extends Model
     public const ACTION_ICONS = [
         'read_resource' => 'fa-book-open',
         'solved_task' => 'fa-clipboard-check',
+        'created_task' => 'fa-folder-plus',
+        'created_resource' => 'fa-folder-plus',
         'undefined' => 'fa-question-circle',
     ];
 

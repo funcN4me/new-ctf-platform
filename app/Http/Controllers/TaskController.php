@@ -45,6 +45,8 @@ class TaskController extends Controller
         $input = $request->input();
         $files = $request->file('files');
 
+        $currentUser = Auth::user();
+
         $input = TasksService::prepareTaskInput($input);
 
         $task = Task::create($input);
@@ -58,6 +60,12 @@ class TaskController extends Controller
                 ]);
             }
         }
+
+        $currentUser->actions()->create([
+            'type' => Action::ACTION_CREATED_TASK,
+            'target_id' => $task->id,
+            'target_name' => $task->name,
+        ]);
 
         return back()->with('message-success', 'Задача успешно создана');
     }

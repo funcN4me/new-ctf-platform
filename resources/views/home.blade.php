@@ -4,10 +4,10 @@
 
 @section('content')
     <div class="row">
-        <div class="col-4">
+        <div class="col-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Популярные категории</h3>
+                    <h3 class="card-title">Популярные категории среди пользователей</h3>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -32,10 +32,10 @@
                 <!-- /.card-body -->
             </div>
         </div>
-        <div class="col-8">
+        <div class="col-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">График решения задач</h3>
+                    <h3 class="card-title">График решения задач среди пользователей</h3>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -54,71 +54,125 @@
                 <!-- /.card-body -->
             </div>
         </div>
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>150</h3>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Последние события</h3>
 
-                    <p>New Orders</p>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
+                <div class="card-body">
+                    <div class="timeline timeline-inverse">
+                        @foreach($actions as $date => $dateActions)
+                            <div class="time-label">
+                                <span class="bg-success">
+                                    {{ $date }}
+                                </span>
+                            </div>
+                            @foreach($dateActions as $action)
+                                <div>
+                                    <i class="fas {{ $action->actionIcon }} bg-info"></i>
+                                    <div class="timeline-item">
+                                        <span class="time"><i class="far fa-clock"></i> {{ $action->created_at->format('H:i') }}</span>
+                                        <h3 class="timeline-header border-0">
+                                            <a>{{ $action->user->fioShort }}</a>
+                                            {{ $action->actionType . ' ' . $action->actionTargetName->name }}
+                                        </h3>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endforeach
+                        <div>
+                            <i class="far fa-clock bg-gray"></i>
+                        </div>
+                    </div>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- /.card-body -->
             </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Топ пользователей по решёным задачам</h3>
 
-                    <p>Bounce Rate</p>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
+                <div class="card-body">
+                    <table id="users" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                        <thead>
+                        <tr role="row">
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="ID">ID</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">ФИО</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Группа</th>
+                            <th class="sorting text-center sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending">Решёных задач</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($users as $user)
+                            <tr>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->fioShort }}</td>
+                                <td>{{ $user->group }}</td>
+                                <td class="text-center">{{ $user->tasks_count }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('users.profile', $user->id) }}" class="btn btn-primary">Профиль</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <!-- /.card-body -->
             </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>44</h3>
-
-                    <p>User Registrations</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>65</h3>
-
-                    <p>Unique Visitors</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
     </div>
 @endsection
 
 @section('custom-scripts')
     <script src="/theme/plugins/chart.js/Chart.min.js"></script>
     <script src="/theme/plugins/chart.js/Chart.bundle.js"></script>
+    <script src="/theme/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/theme/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="/theme/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
     <script src="/js/custom-scripts/dashboards.js"></script>
+    <script src="/js/custom-scripts/home.js"></script>
+
+    <script>
+        $('#users').DataTable({
+            "paging": true,
+            "language": {
+                "lengthMenu": "Показать _MENU_ записей на странице",
+                "zeroRecords": "Ничего не найдено",
+                "info": "Показано _PAGE_ из _PAGES_",
+                "infoEmpty": "Нет доступных записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "search": "Поиск:",
+                "paginate": {
+                    "first": "Первая",
+                    "last": "Последняя",
+                    "next": "Следующая",
+                    "previous": "Предыдущая"
+                }
+            },
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+            "responsive": true,
+            "pageLength" : 5,
+        });
+    </script>
 @endsection

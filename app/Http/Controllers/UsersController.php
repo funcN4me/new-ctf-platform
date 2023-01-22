@@ -84,12 +84,24 @@ class UsersController extends Controller
 
     public function getFavouriteCategories(User $user): array
     {
-        $categories = Category::withCount(['tasks' => function (Builder $query) use ($user) {
-            $query->whereIn('id', $user->tasks->pluck('id')->toArray());
-        }])->get();
+        $favouriteCategories = collect();
+        $categories = Category::all();
 
-        return $categories->filter(function ($category) {
-            return $category->tasks_count > 0;
+        foreach ($categories as $category) {
+            $tasksCount = 0;
+            $favouriteCategories->put($category->id, $tasksCount);
+
+            foreach ($category->tasks as $task) {
+                if ($user->tasks->contains($task)) {
+                    $tasksCount += 1;
+                }
+            }
+            $category->tasks_count = $tasksCount;
+            $favouriteCategories->put($category->id, $category);
+        }
+
+        return $favouriteCategories->filter(function ($category) {
+            return $category->tasks_count ? $category : null;
         })->toArray();
     }
 
@@ -101,7 +113,7 @@ class UsersController extends Controller
 
         foreach (range(1, 12) as $monthNumber) {
             $totalCount += Task::whereYear('created_at', now()->year)->whereMonth('created_at', $monthNumber)->count();
-            $userCount += $user->tasks()->wherePivotBetween(
+            $userCount = $user->tasks()->wherePivotBetween(
                 'created_at', [Carbon::create(now()->year, $monthNumber)->startOfMonth(), Carbon::create(now()->year, $monthNumber)->endOfMonth()])
                 ->get()->count();
 

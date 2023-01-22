@@ -1,8 +1,9 @@
-import makePieChart, {makeLineChart} from "../dashboards";
-
 $(document).ready(function() {
+    let userId = location.href.match(/[^/]+/g).at(-1);
+
+    console.log(userId);
     $.ajax({
-        url: '/users/1/favourite-categories',
+        url: `/users/${userId}/favourite-categories`,
         type: 'GET',
 
         success: function (response) {
@@ -11,7 +12,7 @@ $(document).ready(function() {
     });
 
     $.ajax({
-        url: '/users/1/total-tasks',
+        url: `/users/${userId}/total-tasks`,
         type: 'GET',
 
         success: function (response) {

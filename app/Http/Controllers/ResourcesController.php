@@ -34,12 +34,19 @@ class ResourcesController extends Controller
     public function store(StoreResourceRequest $request): RedirectResponse
     {
         $input = $request->input();
+        $currentUser = Auth::user();
 
         $resource = Resource::create($input);
 
         foreach ($input['resource_parts'] as $resourcePart) {
             $resource->parts()->create(['name' => $resourcePart]);
         }
+
+        $currentUser->actions()->create([
+            'type' => Action::ACTION_CREATED_RESOURCE,
+            'target_id' => $resource->id,
+            'target_name' => $resource->name,
+        ]);
 
         return redirect()->route('resources.resource.edit', ['resource' => $resource->id])->with('message-success', 'Ресурс создан');
     }

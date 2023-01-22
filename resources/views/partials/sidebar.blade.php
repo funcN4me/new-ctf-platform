@@ -17,7 +17,7 @@
                 @endif
             </div>
             <div class="info">
-                <a href="#" class="d-block" id="userSidebar">{{ auth()->user()->fioShort }}</a>
+                <a href="{{ route('users.profile', ['user' => auth()->user()->id]) }}" class="d-block" id="userSidebar">{{ auth()->user()->fioShort }}</a>
             </div>
         </div>
         <!-- Sidebar Menu -->

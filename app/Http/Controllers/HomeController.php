@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Action;
 use App\Models\Category;
 use App\Models\Task;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,15 +31,37 @@ class HomeController extends Controller
      */
     public function index(): \Illuminate\Contracts\Support\Renderable
     {
-        return view('home');
+        $lastActions = Action::orderBy('created_at', 'desc')->limit(5)->get();
+
+        $actions = [];
+
+        foreach ($lastActions as $action) {
+            $actions[$action->created_at->format('d.m.Y')][] = $action;
+        }
+
+        $users = User::withCount('tasks')->get();
+
+        return view('home', compact('actions', 'users'));
     }
 
     public function getFavouriteCategories(): array
     {
-        $categories = Category::withCount('tasks')->get();
+        $categories = Category::with('tasks')->get();
+        $categoriesTasks = collect();
+        foreach ($categories as $category) {
+            $tasksCount = 0;
+            $categoriesTasks->put($category->id, $category);
 
-        return $categories->filter(function ($category) {
-            return $category->tasks_count > 0;
+            foreach ($category->tasks as $task) {
+                $tasksCount += $task->users->count();
+            }
+
+            $category->tasks_count = $tasksCount;
+            $categoriesTasks->put($category->id, $category);
+        }
+
+        return $categoriesTasks->filter(function ($category) {
+            return $category->tasks_count ? $category : null;
         })->toArray();
     }
 
@@ -45,11 +70,10 @@ class HomeController extends Controller
         $totalTasksByMonths = [];
 
         $totalCount = 0;
-        $solvedCount = 0;
 
         foreach (range(1, 12) as $monthNumber) {
             $totalCount += Task::whereYear('created_at', now()->year)->whereMonth('created_at', $monthNumber)->count();
-            $solvedCount += DB::table('task_user')->whereYear('created_at', now()->year)->whereMonth('created_at', $monthNumber)->count();
+            $solvedCount = DB::table('task_user')->whereYear('created_at', now()->year)->whereMonth('created_at', $monthNumber)->count();
 
             $totalTasksByMonths[$monthNumber]['totalTasksCount'] = $totalCount;
             $totalTasksByMonths[$monthNumber]['userTasksCount'] = $solvedCount;
