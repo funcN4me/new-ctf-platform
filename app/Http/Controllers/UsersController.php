@@ -109,7 +109,6 @@ class UsersController extends Controller
     {
         $totalTasksByMonths = [];
         $totalCount = 0;
-        $userCount = 0;
 
         foreach (range(1, 12) as $monthNumber) {
             $totalCount += Task::whereYear('created_at', now()->year)->whereMonth('created_at', $monthNumber)->count();

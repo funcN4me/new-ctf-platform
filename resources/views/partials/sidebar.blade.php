@@ -48,12 +48,14 @@
                                 <p>Список задач</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('tasks.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Создать задачу</p>
-                            </a>
-                        </li>
+                        @if(auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a href="{{ route('tasks.create') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Создать задачу</p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -71,12 +73,14 @@
                                 <p>Список ресурсов</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('resources.create.show') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Создать ресурс</p>
-                            </a>
-                        </li>
+                        @if(auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a href="{{ route('resources.create.show') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Создать ресурс</p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
                 <li class="nav-item">
