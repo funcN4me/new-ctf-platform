@@ -36,7 +36,9 @@ class HomeController extends Controller
         $actions = [];
 
         foreach ($lastActions as $action) {
-            $actions[$action->created_at->format('d.m.Y')][] = $action;
+            if (isset($action->actionTargetName)) {
+                $actions[$action->created_at->format('d.m.Y')][] = $action;
+            }
         }
 
         $users = User::withCount('tasks')->get();

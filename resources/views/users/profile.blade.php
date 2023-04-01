@@ -154,9 +154,6 @@
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                                     <i class="fas fa-minus"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
                                             </div>
                                         </div>
                                         <div class="card-body">
@@ -178,17 +175,19 @@
                                                 </span>
                                             </div>
                                             @foreach($dateActions as $action)
-                                                <div>
-                                                    <i class="fas {{ $action->actionIcon }} bg-info"></i>
+                                                @isset($action->actionTargetName)
+                                                    <div>
+                                                        <i class="fas {{ $action->actionIcon }} bg-info"></i>
 
-                                                    <div class="timeline-item">
-                                                        <span class="time"><i class="far fa-clock"></i> {{ $action->created_at->format('H:i') }}</span>
-                                                        <h3 class="timeline-header border-0">
-                                                            <a>{{ $action->user->fioShort }}</a>
-                                                            {{ $action->actionType . ' ' . $action->actionTargetName->name }}
-                                                        </h3>
+                                                        <div class="timeline-item">
+                                                            <span class="time"><i class="far fa-clock"></i> {{ $action->created_at->format('H:i') }}</span>
+                                                            <h3 class="timeline-header border-0">
+                                                                <a>{{ $action->user->fioShort }}</a>
+                                                                {{ $action->actionType . ' ' . $action->actionTargetName->name }}
+                                                            </h3>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endisset
                                             @endforeach
                                         @endforeach
                                         <div>

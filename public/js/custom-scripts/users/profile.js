@@ -1,7 +1,6 @@
 $(document).ready(function() {
     let userId = location.href.match(/[^/]+/g).at(-1);
 
-    console.log(userId);
     $.ajax({
         url: `/users/${userId}/favourite-categories`,
         type: 'GET',

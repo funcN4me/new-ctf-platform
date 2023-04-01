@@ -57,3 +57,7 @@
     gap: 1rem;
     display: flex;
 }
+
+.profile-user-img.img-fluid.img-circle {
+    cursor: pointer;
+}

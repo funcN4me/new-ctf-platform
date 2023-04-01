@@ -10,7 +10,6 @@ use App\Http\Requests\Users\UpdateUserRequest;
 use App\Models\Category;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Carbon;
@@ -33,9 +32,14 @@ class UsersController extends Controller
             $userActionsDates = $user->actions()->orderBy('created_at')->get()->pluck('created_at');
 
             foreach ($userActionsDates as $userActionsDate) {
-                $actions[$userActionsDate->format('d.m.Y')] = $user->actions()->whereDate('created_at', $userActionsDate)->get();
-            }
+                $userActions = $user->actions()->whereDate('created_at', $userActionsDate)->get();
 
+                foreach ($userActions as $userAction) {
+                    if (isset($userAction->actionTargetName)) {
+                        $actions[$userActionsDate->format('d.m.Y')] = $user->actions()->whereDate('created_at', $userActionsDate)->get();
+                    }
+                }
+            }
 
             return view('users.profile', compact('user', 'actions'));
         }
@@ -69,17 +73,25 @@ class UsersController extends Controller
 
     public function changeAvatar(StoreUserAvatarRequest $request, User $user): RedirectResponse
     {
-        $avatar_path = $request->file('avatar')->store('public/avatars/' . $user->id);
-        $user->update(['avatar_path' => $avatar_path]);
+        if (Auth::user()->isAdmin() || Auth::user()->id === $user->id) {
+            $avatar_path = $request->file('avatar')->store('public/avatars/' . $user->id);
+            $user->update(['avatar_path' => $avatar_path]);
 
-        return back()->with('message-success', 'Аватар успешно изменен');
+            return back()->with('message-success', 'Аватар успешно изменен');
+        }
+
+        return back()->with('message-danger', 'У вас нет прав для выполнения данной операции');
     }
 
     public function deleteAvatar(User $user): RedirectResponse
     {
-        $user->update(['avatar_path' => null]);
+        if (Auth::user()->isAdmin() || Auth::user()->id === $user->id) {
+            $user->update(['avatar_path' => null]);
 
-        return back()->with('message-success', 'Аватар удален');
+            return back()->with('message-success', 'Аватар удален');
+        }
+
+        return back()->with('message-danger', 'У вас нет прав для выполнения данной операции');
     }
 
     public function getFavouriteCategories(User $user): array

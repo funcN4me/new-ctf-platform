@@ -29,13 +29,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'show'])->name('tasks.show');
     Route::get('/task/show/{task}', [App\Http\Controllers\TaskController::class, 'get'])->name('tasks.modal.show');
     Route::post('/task/submit/{task}', [App\Http\Controllers\TaskController::class, 'checkFlag'])->name('tasks.submit');
-    Route::get('/tasks/create', [App\Http\Controllers\TaskController::class, 'create'])->name('tasks.create');
-    Route::post('/tasks/create', [App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store');
-    Route::post('/task/edit/{task}', [App\Http\Controllers\TaskController::class, 'edit'])->name('tasks.edit');
-    Route::get('/task/edit/{task}', [App\Http\Controllers\TaskController::class, 'editShow'])->name('tasks.edit.show');
-    Route::get('/task/file/delete/{file}', [App\Http\Controllers\TaskController::class, 'deleteFile'])->name('tasks.file.delete');
-    Route::get('/task/delete/{task}', [App\Http\Controllers\TaskController::class, 'deleteShow'])->name('tasks.delete.show');
-    Route::post('/task/delete/{task}', [App\Http\Controllers\TaskController::class, 'delete'])->name('tasks.delete');
+    Route::get('/tasks/create', [App\Http\Controllers\TaskController::class, 'create'])->name('tasks.create')->middleware('is_admin');
+    Route::post('/tasks/create', [App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store')->middleware('is_admin');
+    Route::post('/task/edit/{task}', [App\Http\Controllers\TaskController::class, 'edit'])->name('tasks.edit')->middleware('is_admin');
+    Route::get('/task/edit/{task}', [App\Http\Controllers\TaskController::class, 'editShow'])->name('tasks.edit.show')->middleware('is_admin');
+    Route::get('/task/file/delete/{file}', [App\Http\Controllers\TaskController::class, 'deleteFile'])->name('tasks.file.delete')->middleware('is_admin');
+    Route::get('/task/delete/{task}', [App\Http\Controllers\TaskController::class, 'deleteShow'])->name('tasks.delete.show')->middleware('is_admin');
+    Route::post('/task/delete/{task}', [App\Http\Controllers\TaskController::class, 'delete'])->name('tasks.delete')->middleware('is_admin');
 
     Route::get('/users', [App\Http\Controllers\UsersController::class, 'list'])->name('users.list')->middleware('is_admin');
     Route::post('/users/store', [App\Http\Controllers\UsersController::class, 'store'])->name('users.store')->middleware('is_admin');
@@ -48,12 +48,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/users/{user}/total-tasks', [App\Http\Controllers\UsersController::class, 'getTasksCountByMonth']);
 
     Route::get('/resources', [App\Http\Controllers\ResourcesController::class, 'list'])->name('resources.show');
-    Route::get('/resources/create', [App\Http\Controllers\ResourcesController::class, 'create'])->name('resources.create.show');
-    Route::post('/resources/create', [App\Http\Controllers\ResourcesController::class, 'store'])->name('resources.create.store');
+    Route::get('/resources/create', [App\Http\Controllers\ResourcesController::class, 'create'])->name('resources.create.show')->middleware('is_admin');
+    Route::post('/resources/create', [App\Http\Controllers\ResourcesController::class, 'store'])->name('resources.create.store')->middleware('is_admin');
     Route::get('/resources/resource/{resource}', [App\Http\Controllers\ResourcesController::class, 'show'])->name('resources.resource.show');
-    Route::get('/resources/resource/edit/{resource}', [App\Http\Controllers\ResourcesController::class, 'showEdit'])->name('resources.resource.edit');
-    Route::post('/resources/resource/edit/{resource}', [App\Http\Controllers\ResourcesController::class, 'edit'])->name('resources.resource.edit.submit');
-    Route::get('/resources/resource/delete/{resource}', [App\Http\Controllers\ResourcesController::class, 'deleteShow'])->name('resources.delete.show');
-    Route::post('/resources/resource/delete/{resource}', [App\Http\Controllers\ResourcesController::class, 'delete'])->name('resources.resource.delete');
+    Route::get('/resources/resource/edit/{resource}', [App\Http\Controllers\ResourcesController::class, 'showEdit'])->name('resources.resource.edit')->middleware('is_admin');
+    Route::post('/resources/resource/edit/{resource}', [App\Http\Controllers\ResourcesController::class, 'edit'])->name('resources.resource.edit.submit')->middleware('is_admin');
+    Route::get('/resources/resource/delete/{resource}', [App\Http\Controllers\ResourcesController::class, 'deleteShow'])->name('resources.delete.show')->middleware('is_admin');
+    Route::post('/resources/resource/delete/{resource}', [App\Http\Controllers\ResourcesController::class, 'delete'])->name('resources.resource.delete')->middleware('is_admin');
     Route::get('/resources/resource/mark-as-read/{resource}', [App\Http\Controllers\ResourcesController::class, 'markAsRead'])->name('resources.resource.mark_as_read');
 });

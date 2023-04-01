@@ -41,9 +41,6 @@
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -124,7 +121,9 @@
                                 <td>{{ $user->group }}</td>
                                 <td class="text-center">{{ $user->tasks_count }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('users.profile', $user->id) }}" class="btn btn-primary">Профиль</a>
+                                    @if(auth()->user()->isAdmin() || $user->id === auth()->user()->id)
+                                        <a href="{{ route('users.profile', $user->id) }}" class="btn btn-primary">Профиль</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
