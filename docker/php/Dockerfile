@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
 
 
 RUN docker-php-ext-configure pdo_mysql && docker-php-ext-install pdo_mysql
+RUN docker-php-ext-configure mysqli && docker-php-ext-install mysqli
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap
 RUN docker-php-ext-configure gd && docker-php-ext-install gd
 RUN docker-php-ext-configure zip && docker-php-ext-install zip

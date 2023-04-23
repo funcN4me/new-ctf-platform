@@ -42,4 +42,5 @@
 
 @section('custom-styles')
     <link rel="stylesheet" href="/css/custom-css/tasks/tasks.css">
+    <link rel="stylesheet" href="/css/custom-css/resources/ck-editor.css">
 @endsection
